@@ -1,0 +1,18 @@
+# CropScan v3 - Crop Disease Detection
+# YOLO11s trained on 6-class agricultural dataset
+# Classes: healthy, bacterial, fungal, viral, nutrient_stress, other_disease
+
+build:
+  gpu: true
+  cuda: "12.1"
+  python_version: "3.11"
+  system_packages:
+    - "libglib2.0-0"
+    - "libgl1-mesa-glx"
+    - "ffmpeg"
+  python_packages:
+    - "ultralytics>=8.3.0"
+    - "numpy<2"
+
+predict: predict.py:Predictor
+image: r8.im/nztinversive/cropscan-v3
