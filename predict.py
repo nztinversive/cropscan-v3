@@ -55,7 +55,14 @@ class Predictor(BasePredictor):
         ),
     ) -> Output:
         """Run crop disease detection and return annotated image with optional JSON."""
-        result = self.model(str(image), conf=conf, iou=iou, imgsz=imgsz)[0]
+        import shutil
+        image_path = str(image)
+        # Ensure file has an image extension (YOLO needs it to detect format)
+        if not any(image_path.lower().endswith(ext) for ext in ('.jpg', '.jpeg', '.png', '.webp', '.bmp', '.tiff', '.tif')):
+            new_path = image_path + ".jpg"
+            shutil.copy2(image_path, new_path)
+            image_path = new_path
+        result = self.model(image_path, conf=conf, iou=iou, imgsz=imgsz)[0]
 
         # Save annotated image
         image_path = "output.png"
